@@ -1,0 +1,21 @@
+{
+  "name": "sns-sdk",
+  "version": "0.1.0",
+  "description": "sns-sdk weixin weibo qq weiboshare",
+  "main": "sns-sdk.js",
+  "directories": {
+    "test": "tests"
+  },
+  "keywords": [
+    "sns-sdk",
+    "weixin",
+    "weibo",
+    "qq",
+    "weiboshare"
+  ],
+  "author": "coffeexu",
+  "devDependencies": {
+    "uparams": "~1.0.3"
+  },
+  "license": "MIT"
+}
