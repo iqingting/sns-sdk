@@ -1,9 +1,31 @@
 "use strict";
 
-const params = new UParams();
-const DOMAIN = location.host.match(/\w+\.\w+$|$/)[0];
-const UA = navigator.userAgent;
-const parse = text => {
+/**/ void function () {
+
+// UMD
+var umd = function (name, component) {
+  switch(true) {
+    // CommonJS
+    case typeof module === 'object' && !!module.exports:
+      module.exports = component;
+      break;
+    // AMD (Add a 'String' wrapper here to fuck webpack)
+    case String(typeof define) === 'function' && !!define.amd:
+      define(name, function () { return component; });
+      break;
+    // Global
+    default:
+      /**/ try { /* Fuck IE8- */
+      /**/   if(typeof execScript === 'object') execScript('var ' + name);
+      /**/ } catch(error) {}
+      window[name] = component;
+  }
+};
+
+var params = new UParams();
+var DOMAIN = location.host.match(/\w+\.\w+$|$/)[0];
+var UA = navigator.userAgent;
+var parse = function parse(text) {
   try {
     return JSON.parse(text) || {};
   } catch (error) {
@@ -11,70 +33,72 @@ const parse = text => {
   }
 };
 
-var setCookie = (info) => {
+var setCookie = function setCookie(info) {
   var info = encodeURIComponent(JSON.stringify(info));
-  document.cookie = `snsInfo=${info}; Domain=${DOMAIN}; Path=/; Expires=Wed, 31 Dec 2098 16:00:00 GMT`;
-}
+  document.cookie = 'snsInfo=' + info + '; Domain=' + DOMAIN + '; Path=/; Expires=Wed, 31 Dec 2098 16:00:00 GMT';
+};
 
-var removeCookie = () => {
-  document.cookie = `snsInfo=; Domain=${DOMAIN}; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-}
+var removeCookie = function removeCookie() {
+  document.cookie = 'snsInfo=; Domain=' + DOMAIN + '; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT';
+};
 
-window.snsSDK = new function () {
-  this.where = /MicroMessenger/i.test(UA) ? 'weixin' :
-               /QQ/i.test(UA) ? 'qq' :
-               /weibo/i.test(UA) ? 'weibo' : 'browser';
+var snsSDK = new function () {
+  var _this = this;
+
+  this.where = /MicroMessenger/i.test(UA) ? 'weixin' : /QQ/i.test(UA) ? 'qq' : /weibo/i.test(UA) ? 'weibo' : 'browser';
   if (this.where === 'browser') return;
   var queue = [];
-  var done = object => {
+  var done = function done(object) {
     object.name = object.name || object.nickname;
     object.openid = object.openid || object.id;
     object.avatar = object.figureurl_qq_1 || object.headimgurl || object.profile_image_url;
     object.eleme_key = object.eleme_key || object.key;
 
-    if (!object.openid) return this.authorize();
+    if (!object.openid) return _this.authorize();
     setCookie(object);
     queue.reverse();
     while (queue.length) queue.pop()(object);
   };
 
-  this.authorize = () => {
+  this.authorize = function () {
     removeCookie();
 
-    let url = encodeURIComponent(location.href);
-    let authorize = {};
-    authorize['weixin'] = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx2a416286e96100ed&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo`;
-    authorize['qq'] = `https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101204453&redirect_uri=${url}&response_type=code&scope=get_user_info`;
-    authorize['weibo'] = `https://api.weibo.com/oauth2/authorize?client_id=1772937595&redirect_uri=${url}&display=mobile`;
-    location.href = authorize[this.where];
+    var url = encodeURIComponent(location.href);
+    var authorize = {};
+    authorize['weixin'] = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx2a416286e96100ed&redirect_uri=' + url + '&response_type=code&scope=snsapi_userinfo';
+    authorize['qq'] = 'https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101204453&redirect_uri=' + url + '&response_type=code&scope=get_user_info';
+    authorize['weibo'] = 'https://api.weibo.com/oauth2/authorize?client_id=1772937595&redirect_uri=' + url + '&display=mobile';
+    location.href = authorize[_this.where];
   };
 
-  this.getUserInfo = callback => {
+  this.getUserInfo = function (callback) {
     if (queue.push(callback) > 1) return;
     if (params.code) {
-      let copy = new UParams(params);
-      delete copy.code;
-      history.replaceState(null, null, copy);
-      let xhr = new XMLHttpRequest();
-      xhr.open('GET', `//waltz.test.ele.me/${this.where}/userinfo?code=${encodeURIComponent(params.code)}`);
-      xhr.onerror = xhr.onload = () => {
-        var response = parse(xhr.responseText);
-        done(response);
-      };
-      xhr.send();
-      delete params.code;
+      (function () {
+        var copy = new UParams(params);
+        delete copy.code;
+        history.replaceState(null, null, copy);
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '//waltz.ele.me/' + _this.where + '/userinfo?code=' + encodeURIComponent(params.code));
+        xhr.onerror = xhr.onload = function () {
+          var response = parse(xhr.responseText);
+          done(response);
+        };
+        xhr.send();
+        delete params.code;
+      })();
     } else {
       done(parse(decodeURIComponent(document.cookie.match(/snsInfo=([^;]*)|$/)[1])));
     }
   };
 
   if (this.where !== 'weixin') return;
-  this.share = (param) => {
+  this.share = function (param) {
     if (!window.wx) return;
-    let list = [ 'onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo' ];
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', '//waltz.test.ele.me/weixin/jssign?url=' + encodeURIComponent(param.link));
-    xhr.onload = () => {
+    var list = ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo'];
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '//waltz.ele.me/weixin/jssign?url=' + encodeURIComponent(param.link));
+    xhr.onload = function () {
       var data = parse(xhr.responseText);
       wx.config({
         appId: data.appid,
@@ -83,8 +107,17 @@ window.snsSDK = new function () {
         signature: data.signature,
         jsApiList: list.slice(0)
       });
-      wx.ready(() => list.forEach(name => wx[name](param)));
+      wx.ready(function () {
+        return list.forEach(function (name) {
+          return wx[name](param);
+        });
+      });
     };
     xhr.send();
   };
-}
+}();
+
+// UMD Export
+umd('snsSDK', snsSDK);
+
+/**/ }();
