@@ -22,7 +22,6 @@ var umd = function (name, component) {
   }
 };
 
-var params = new UParams();
 var DOMAIN = location.host.match(/\w+\.\w+$|$/)[0];
 var UA = navigator.userAgent;
 var parse = function parse(text) {
@@ -46,7 +45,8 @@ var snsSDK = new function () {
   var _this = this;
 
   this.where = /MicroMessenger/i.test(UA) ? 'weixin' : /QQ/i.test(UA) ? 'qq' : /weibo/i.test(UA) ? 'weibo' : 'browser';
-  if (this.where === 'browser') return;
+  this.params = new UParams();
+  if (_this.where === 'browser') return;
   var queue = [];
   var done = function done(object) {
     object.name = object.name || object.nickname;
@@ -73,26 +73,26 @@ var snsSDK = new function () {
 
   this.getUserInfo = function (callback) {
     if (queue.push(callback) > 1) return;
-    if (params.code) {
+    if (_this.params.code) {
       (function () {
-        var copy = new UParams(params);
+        var copy = new UParams(_this.params);
         delete copy.code;
         history.replaceState(null, null, copy);
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '//waltz.ele.me/' + _this.where + '/userinfo?code=' + encodeURIComponent(params.code));
+        xhr.open('GET', '//waltz.ele.me/' + _this.where + '/userinfo?code=' + encodeURIComponent(_this.params.code));
         xhr.onerror = xhr.onload = function () {
           var response = parse(xhr.responseText);
           done(response);
         };
         xhr.send();
-        delete params.code;
+        delete _this.params.code;
       })();
     } else {
       done(parse(decodeURIComponent(document.cookie.match(/snsInfo=([^;]*)|$/)[1])));
     }
   };
 
-  if (this.where !== 'weixin') return;
+  if (_this.where !== 'weixin') return;
   this.share = function (param) {
     if (!window.wx) return;
     var list = ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo'];
