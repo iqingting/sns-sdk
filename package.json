@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "prepublish": "amd2umd src/sns-sdk.js > sns-sdk.js"
+    "install": "amd2umd src/sns-sdk.js > sns-sdk.js"
   },
   "keywords": [
     "sns-sdk",
@@ -17,8 +17,10 @@
     "weiboshare"
   ],
   "author": "coffeexu",
-  "devDependencies": {
-    "amd2umd": "~0.0.3",
+  "dependencies": {
+    "amd2umd": "~0.0.3"
+  },
+  "peerDependencies": {
     "uparams": "~1.2.0"
   },
   "license": "MIT"

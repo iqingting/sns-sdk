@@ -1,4 +1,4 @@
-/**/ define('snsSDK', ['UParams'], function (UParams) {
+/**/ define('sns', ['UParams'], function (UParams) {
 
 "use strict";
 
@@ -96,6 +96,5 @@ return new function () {
     xhr.send();
   };
 }();
-
 
 /**/ });
