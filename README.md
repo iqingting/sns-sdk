@@ -1,85 +1,52 @@
 ## sns-sdk
 
-获取第三方授权信息，以及分享的配置。依赖[UParams](https://github.com/YanagiEiichi/uparams)
+获取第三方授权信息，以及分享的配置。依赖 [UParams](https://github.com/YanagiEiichi/uparams)
 
-#### version
-0.1.0 支持微信授权，qq授权，微博授权并返回用户信息。支持微信分享配置。
+1. 支持微信授权，QQ 授权，微博授权并返回用户信息。
+2. 支持微信分享配置。
 
-1.返回用户信息
+#### 安装与使用
 
-```javascript
+###### 1. 安装
 
-  {
-    openid: "xxx",
-    name: "xxx",
-    avatar: "xxx",
-    eleme_key: "xxxxxxxxxxxxx",
-    ...
-  }
-
+```html
+<!-- 判断微信浏览器，并引入微信的 SDK -->
+<script>
+if (/MicroMessenger/i.test(navigator.userAgent))
+  document.write('<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"><\/script>');
+</script>
+<!-- 引入依赖 UParams -->
+<script src="/node_modules/uparams/uparams.js"></script>
+<!-- 引入 sns-sdk -->
+<script src="/node_modules/sns-sdk/sns-sdk.js"></script>
 ```
 
+###### 2. 使用
 
-2.配置微信分享
+调用平台分享功能
 
-```javascript
-
-  shareParam = {
-    title: 'xxx',
-    desc: 'xxx',
-    imgUrl: 'xxx',
-    link: 'xxx'
-  };
-  snsSDK.share(shareParam);
-
+```js
+snsSDK.share({
+  title: '分享标题',
+  desc: '分享描述',
+  // 注意！imgUrl 和 link 必须是以 http 或 https 开头的绝对 URL
+  imgUrl: '分享图标',
+  link: '分享链接'
+});
 ```
 
-#### Usage
+获取用户信息（可能会跳到授权页再链接回来，导致页面重新加载）
 
-#####引入
-
-```javascript
-
-<!-- wechat分享 -->
-<script type="text/javascript"> if (/MicroMessenger/i.test(navigator.userAgent)) document.write('<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"><\/script>'); </script>
-
-<!-- 引入 -->
-<script file="bower_components/uparams/uparams.js" src="/activities/bower_components/uparams/uparams.js"></script>
-
-<script src="/activities/node_modules/sns-sdk/sns-sdk.js" file="node_modules/sns-sdk/sns-sdk.js"></script>
-
-...
-```
-
-#####调用
-
-```javascript
-
-  switch (snsSDK.where) {
-    // snsSDK.where = ['qq' || 'weixin' || 'weibo' || 'browser']
-    case 'browser':
-      init();
-      break;
-    case 'weixin':
-      snsSDK.share(shareParam);
-    default:
-      snsSDK.getUserInfo(user => init(user));
-  }
-
-```
-
-####other
-1.属性
-
-```javascript
-  snsSDK.where;  // ['qq' || 'weixin' || 'weibo' || 'browser']
-  snsSDK.params; // 获取url参数
-```
-
-2.方法
-
-```javascript
-  snsSDK.share(param);
-  snsSDK.getUserInfo();
-  snsSDK.authorize();
+```js
+snsSDK.getUserInfo(user => {
+  /**
+   # 此处 user 的值为
+   {
+     openid: "唯一标识符",
+     name: "用户昵称",
+     avatar: "头像链接",
+     // ...
+   }
+  **/
+});
 ```

@@ -6,6 +6,9 @@
   "directories": {
     "test": "tests"
   },
+  "scripts": {
+    "prepublish": "amd2umd src/sns-sdk.js > sns-sdk.js"
+  },
   "keywords": [
     "sns-sdk",
     "weixin",
@@ -15,7 +18,8 @@
   ],
   "author": "coffeexu",
   "devDependencies": {
-    "uparams": "~1.0.3"
+    "amd2umd": "~0.0.3",
+    "uparams": "~1.2.0"
   },
   "license": "MIT"
 }

@@ -1,26 +1,6 @@
+/**/ define('snsSDK', ['UParams'], function (UParams) {
+
 "use strict";
-
-/**/ void function () {
-
-// UMD
-var umd = function (name, component) {
-  switch(true) {
-    // CommonJS
-    case typeof module === 'object' && !!module.exports:
-      module.exports = component;
-      break;
-    // AMD (Add a 'String' wrapper here to fuck webpack)
-    case String(typeof define) === 'function' && !!define.amd:
-      define(name, function () { return component; });
-      break;
-    // Global
-    default:
-      /**/ try { /* Fuck IE8- */
-      /**/   if(typeof execScript === 'object') execScript('var ' + name);
-      /**/ } catch(error) {}
-      window[name] = component;
-  }
-};
 
 var DOMAIN = location.host.match(/\w+\.\w+$|$/)[0];
 var UA = navigator.userAgent;
@@ -41,7 +21,7 @@ var removeCookie = function removeCookie() {
   document.cookie = 'snsInfo=; Domain=' + DOMAIN + '; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT';
 };
 
-var snsSDK = new function () {
+return new function () {
   var _this = this;
 
   this.where = /MicroMessenger/i.test(UA) ? 'weixin' : /QQ/i.test(UA) ? 'qq' : /weibo/i.test(UA) ? 'weibo' : 'browser';
@@ -117,7 +97,5 @@ var snsSDK = new function () {
   };
 }();
 
-// UMD Export
-umd('snsSDK', snsSDK);
 
-/**/ }();
+/**/ });
