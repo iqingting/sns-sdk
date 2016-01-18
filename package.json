@@ -1,13 +1,13 @@
 {
   "name": "sns-sdk",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "sns-sdk weixin weibo qq weiboshare",
   "main": "sns-sdk.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "install": "amd2umd src/sns-sdk.js > sns-sdk.js"
+    "build": "amd2umd src/sns-sdk.js > sns-sdk.js"
   },
   "keywords": [
     "sns-sdk",
@@ -17,9 +17,8 @@
     "weiboshare"
   ],
   "author": "coffeexu",
-  "dependencies": {
-    "amd2umd": "0.0.4",
-    "uparams": "~1.2.0"
+  "devDependencies": {
+    "amd2umd": "0.0.4"
   },
   "peerDependencies": {
     "uparams": "~1.2.0"
