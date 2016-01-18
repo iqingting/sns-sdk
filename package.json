@@ -1,6 +1,6 @@
 {
   "name": "sns-sdk",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "sns-sdk weixin weibo qq weiboshare",
   "main": "sns-sdk.js",
   "directories": {
@@ -18,7 +18,8 @@
   ],
   "author": "coffeexu",
   "dependencies": {
-    "amd2umd": "~0.0.3"
+    "amd2umd": "0.0.4",
+    "uparams": "~1.2.0"
   },
   "peerDependencies": {
     "uparams": "~1.2.0"
