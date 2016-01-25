@@ -43,7 +43,7 @@ return new function () {
   this.authorize = function () {
     removeCookie();
 
-    var url = encodeURIComponent(location.href);
+    var url = encodeURIComponent('https://m.ele.me/activities/wechat?eleme_redirect=' + encodeURIComponent(location.href));
     var authorize = {};
     authorize['weixin'] = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx2a416286e96100ed&redirect_uri=' + url + '&response_type=code&scope=snsapi_userinfo';
     authorize['qq'] = 'https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101204453&redirect_uri=' + url + '&response_type=code&scope=get_user_info';
