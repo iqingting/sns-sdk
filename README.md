@@ -26,7 +26,7 @@ if (/MicroMessenger/i.test(navigator.userAgent))
 调用平台分享功能
 
 ```js
-snsSDK.share({
+sns.share({
   title: '分享标题',
   desc: '分享描述',
   // 注意！imgUrl 和 link 必须是以 http 或 https 开头的绝对 URL
@@ -38,7 +38,7 @@ snsSDK.share({
 获取用户信息（可能会跳到授权页再链接回来，导致页面重新加载）
 
 ```js
-snsSDK.getUserInfo(user => {
+sns.getUserInfo(user => {
   /**
    # 此处 user 的值为
    {
