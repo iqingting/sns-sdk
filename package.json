@@ -1,6 +1,6 @@
 {
   "name": "sns-sdk",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "sns-sdk weixin weibo qq weiboshare",
   "main": "sns-sdk.js",
   "directories": {
@@ -17,7 +17,10 @@
     "weiboshare"
   ],
   "author": "coffeexu",
-  "dependencies": {
+  "globalDependencies": {
+    "UParams": "http://github.elemecdn.com/YanagiEiichi/uparams/1.3.0/uparams.min.js"
+  },
+  "devDependencies": {
     "amd2umd": "0.0.4"
   },
   "license": "MIT"

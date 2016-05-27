@@ -1,4 +1,4 @@
-/**/ define('sns', ['UParams'], function (UParams) {
+/**/ define('sns', function () {
 
 "use strict";
 
@@ -80,13 +80,16 @@ return new function () {
     xhr.open('GET', '//waltz.ele.me/weixin/jssign?url=' + encodeURIComponent(param.link));
     xhr.onload = function () {
       var data = parse(xhr.responseText);
-      wx.config({
+      var options = {
         appId: data.appid,
         timestamp: data.timestamp,
         nonceStr: data.nonceStr,
         signature: data.signature,
         jsApiList: list.slice(0)
-      });
+      };
+      var params = new UParams();
+      if (params.debug) options.debug = true;
+      wx.config(options);
       wx.ready(function () {
         return list.forEach(function (name) {
           return wx[name](param);

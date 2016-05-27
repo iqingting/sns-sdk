@@ -1,6 +1,8 @@
 ## sns-sdk
 
-获取第三方授权信息，以及分享的配置。依赖 [UParams](https://github.com/YanagiEiichi/uparams)
+获取第三方授权信息，以及分享的配置。
+
+依赖全局的 [UParams](https://github.com/YanagiEiichi/uparams)。
 
 1. 支持微信授权，QQ 授权，微博授权并返回用户信息。
 2. 支持微信分享配置。
@@ -16,7 +18,7 @@ if (/MicroMessenger/i.test(navigator.userAgent))
   document.write('<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"><\/script>');
 </script>
 <!-- 引入依赖 UParams -->
-<script src="/node_modules/uparams/uparams.js"></script>
+<script src="http://github.elemecdn.com/YanagiEiichi/uparams/1.3.0/uparams.min.js"></script>
 <!-- 引入 sns-sdk -->
 <script src="/node_modules/sns-sdk/sns-sdk.js"></script>
 ```
