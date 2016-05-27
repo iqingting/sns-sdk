@@ -1,3 +1,30 @@
+/**/ void function(scope) {
+/**/
+/**/   // CommonJS
+/**/   if (typeof module === 'object' && !!module.exports) return scope(function(name, dependencies, factory) {
+/**/     if(factory === void 0) factory = dependencies, dependencies = [];
+/**/     var args;
+/**/     args = [ require('UParams') ];
+/**/     module.exports = factory.apply(module.exports, args) || module.exports;
+/**/   });
+/**/
+/**/   // AMD, wrap a 'String' to avoid warn of fucking webpack
+/**/   if (String(typeof define) === 'function' && !!define.amd) return scope(define);
+/**/
+/**/   // Global
+/**/   scope(function(name, dependencies, factory) {
+/**/     if(factory === void 0) factory = dependencies, dependencies = [];
+/**/     /**/ try { /* Fuck IE8- */
+/**/     /**/   if(typeof execScript === 'object') execScript('var ' + name);
+/**/     /**/ } catch(error) {}
+/**/     window[name] = {};
+/**/     var args = [];
+/**/     for(var i = 0; i < dependencies.length; i++) args[i] = window[dependencies[i]];
+/**/     window[name] = factory.apply(window[name], args) || window[name];
+/**/   });
+/**/
+/**/ }(function(define) {
+
 /**/ define('sns', function () {
 
 "use strict";
@@ -26,7 +53,6 @@ return new function () {
 
   this.where = /MicroMessenger/i.test(UA) ? 'weixin' : /QQ/i.test(UA) ? 'qq' : /weibo/i.test(UA) ? 'weibo' : 'browser';
   this.params = new UParams();
-  if (_this.where === 'browser') return;
   var queue = [];
   var done = function done(object) {
     object.name = object.name || object.nickname;
@@ -41,6 +67,7 @@ return new function () {
   };
 
   this.authorize = function () {
+    if (_this.where === 'browser') return alert('调用认证功能请在微信浏览器打开');
     removeCookie();
 
     var url = encodeURIComponent('https://m.ele.me/activities/wechat?eleme_redirect=' + encodeURIComponent(location.href));
@@ -52,6 +79,7 @@ return new function () {
   };
 
   this.getUserInfo = function (callback) {
+    if (_this.where === 'browser') return console.log('调用获取用户信息功能请在微信浏览器打开');
     if (queue.push(callback) > 1) return;
     if (_this.params.code) {
       (function () {
@@ -59,7 +87,7 @@ return new function () {
         delete copy.code;
         history.replaceState(null, null, copy);
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '//waltz.ele.me/' + _this.where + '/userinfo?code=' + encodeURIComponent(_this.params.code));
+        xhr.open('GET', '//waltz.test.ele.me/' + _this.where + '/userinfo?code=' + encodeURIComponent(_this.params.code));
         xhr.onerror = xhr.onload = function () {
           var response = parse(xhr.responseText);
           done(response);
@@ -71,13 +99,12 @@ return new function () {
       done(parse(decodeURIComponent(document.cookie.match(/snsInfo=([^;]*)|$/)[1])));
     }
   };
-
-  if (_this.where !== 'weixin') return;
   this.share = function (param) {
+    if (_this.where !== 'weixin') return console.log('调用分享功能请在微信浏览器打开');
     if (!window.wx) return;
     var list = ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo'];
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '//waltz.ele.me/weixin/jssign?url=' + encodeURIComponent(param.link));
+    xhr.open('GET', '//waltz.test.ele.me/weixin/jssign?url=' + encodeURIComponent(param.link));
     xhr.onload = function () {
       var data = parse(xhr.responseText);
       var options = {
@@ -99,5 +126,7 @@ return new function () {
     xhr.send();
   };
 }();
+
+/**/ });
 
 /**/ });
