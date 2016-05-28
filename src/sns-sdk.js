@@ -26,7 +26,6 @@ return new function () {
 
   this.where = /MicroMessenger/i.test(UA) ? 'weixin' : /QQ/i.test(UA) ? 'qq' : /weibo/i.test(UA) ? 'weibo' : 'browser';
   this.params = new UParams();
-  if (_this.where === 'browser') return;
   var queue = [];
   var done = function done(object) {
     object.name = object.name || object.nickname;
@@ -41,6 +40,7 @@ return new function () {
   };
 
   this.authorize = function () {
+    if (_this.where === 'browser') return console.log('调用认证功能请在第三方客户端打开');
     removeCookie();
 
     var url = encodeURIComponent('https://m.ele.me/activities/wechat?eleme_redirect=' + encodeURIComponent(location.href));
@@ -52,6 +52,7 @@ return new function () {
   };
 
   this.getUserInfo = function (callback) {
+    if (_this.where === 'browser') return console.log('调用获取用户信息功能请在第三方客户端打开');
     if (queue.push(callback) > 1) return;
     if (_this.params.code) {
       (function () {
@@ -72,8 +73,8 @@ return new function () {
     }
   };
 
-  if (_this.where !== 'weixin') return;
   this.share = function (param) {
+    if (_this.where !== 'weixin') return console.log('调用分享功能请在微信浏览器打开');
     if (!window.wx) return;
     var list = ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo'];
     var xhr = new XMLHttpRequest();
