@@ -1,0 +1,11 @@
+node -pe 'var c = require("./package.json"); c.version="'$1'"; JSON.stringify(c,0,2)' > package.json.tmp
+mv package.json.tmp package.json
+git add package.json
+
+amd2umd src/sns-sdk.js > sns-sdk.js
+git add sns-sdk.js -f
+
+git commit -m $1
+git tag $1
+
+git push git@github.com:eleme/sns-sdk --tag
