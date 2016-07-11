@@ -1,3 +1,9 @@
+if [ ! "$1" ]
+then
+echo 'Usage: ./publish <version>'
+exit 1
+fi
+
 node -pe 'var c = require("./package.json"); c.version="'$1'"; JSON.stringify(c,0,2)' > package.json.tmp
 mv package.json.tmp package.json
 git add package.json
