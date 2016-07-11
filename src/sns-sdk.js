@@ -56,8 +56,8 @@ return new function () {
     if (queue.push(callback) > 1) return;
     if (_this.params.code) {
       (function () {
-        var copy = new UParams(_this.params);
-        delete copy.code;
+        // Remove code in url params
+        let copy = location.href.replace(/(&|\?|#)code=\w+/g, '$1code=');
         history.replaceState(null, null, copy);
         var xhr = new XMLHttpRequest();
         xhr.open('GET', '//waltz.ele.me/' + _this.where + '/userinfo?code=' + encodeURIComponent(_this.params.code));
