@@ -1,6 +1,6 @@
 {
   "name": "sns-sdk",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "sns-sdk weixin weibo qq weiboshare",
   "main": "sns-sdk.js",
   "directories": {
