@@ -84,7 +84,7 @@ return new function () {
     if (_this.params.code) {
       (function () {
         // Remove code in url params
-        let copy = location.href.replace(/(&|\?|#)code=\w+/g, '$1code=');
+        var copy = location.href.replace(/(&|\?|#)code=\w+/g, '$1code=');
         history.replaceState(null, null, copy);
         var xhr = new XMLHttpRequest();
         xhr.open('GET', '//waltz.ele.me/' + _this.where + '/userinfo?code=' + encodeURIComponent(_this.params.code));
