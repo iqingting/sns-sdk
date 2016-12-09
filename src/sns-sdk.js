@@ -78,7 +78,7 @@ return new function () {
     if (!window.wx) return;
     var list = ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo'];
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '//waltz.ele.me/weixin/jssign?url=' + encodeURIComponent(param.link));
+    xhr.open('GET', '//waltz.ele.me/weixin/jssign?url=' + encodeURIComponent(location.href));
     xhr.onload = function () {
       var data = parse(xhr.responseText);
       var options = {
