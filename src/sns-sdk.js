@@ -96,6 +96,7 @@ export default {
       return
     }
 
+<<<<<<< HEAD
     if (!window.wx) {
       return console.error('Uncaught ReferenceError: wx is not defined 使用分享功能需引入第三方的 sdk，请检查代码')
     }
@@ -110,6 +111,16 @@ export default {
     xhr.open('GET', `//waltz.ele.me/weixin/jssign?url=${encodeURIComponent(location.href)}`)
     xhr.onload = () => {
       var data = Parse(xhr.responseText)
+=======
+  this.share = function (param) {
+    if (_this.where !== 'weixin') return console.log('调用分享功能请在微信浏览器打开');
+    if (!window.wx) return;
+    var list = ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo'];
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '//waltz.ele.me/weixin/jssign?url=' + encodeURIComponent(location.href));
+    xhr.onload = function () {
+      var data = parse(xhr.responseText);
+>>>>>>> Fix sign url
       var options = {
         appId: data.appid,
         timestamp: data.timestamp,
