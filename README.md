@@ -2,14 +2,16 @@
 
 获取第三方授权信息，以及分享的配置。
 
-依赖全局的 [UParams](https://github.com/YanagiEiichi/uparams)。
-
-1. 支持微信授权，QQ 授权，微博授权并返回用户信息。
+1. 支持微信、QQ 以及微博的授权，并返回用户信息。
 2. 支持微信分享配置。
 
-#### 安装与使用
+## 依赖
 
-###### 1. 安装
+1. 只有在 `*.ele.me` 下才可以使用
+2. 平台的 sdk
+3. [uparams](https://github.com/YanagiEiichi/uparams)
+
+## 引入方式
 
 ```html
 <!-- 判断微信浏览器，并引入微信的 SDK -->
@@ -23,7 +25,7 @@ if (/MicroMessenger/i.test(navigator.userAgent))
 <script src="/node_modules/sns-sdk/sns-sdk.js"></script>
 ```
 
-###### 2. 使用
+## 使用
 
 调用平台分享功能
 
@@ -37,7 +39,7 @@ sns.share({
 });
 ```
 
-获取用户信息（可能会跳到授权页再链接回来，导致页面重新加载）
+获取用户信息（可能会跳到授权页再链接回来，**导致页面重新加载**）
 
 ```js
 sns.getUserInfo(user => {
