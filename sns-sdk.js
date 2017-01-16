@@ -28,7 +28,7 @@ var CookieConfig = {
   },
 
   remove: function remove() {
-    this.config({
+    this.set({
       info: '',
       expired: 'Thu, 01 Jan 1970 00:00:00 GMT',
     });
@@ -67,7 +67,7 @@ var Env = (function() {
       return 'browser'
       break
   }
-});
+})();
 
 var snsSdk = {
   env: Env,
@@ -129,6 +129,8 @@ var snsSdk = {
    * @param { Function } callback 拿到用户信息后的 callback 函数
    */
   getUserInfo: function getUserInfo(callback) {
+    var this$1 = this;
+
     if (!this.available()) {
       return
     }
@@ -142,14 +144,14 @@ var snsSdk = {
       var copy = location.href.replace(/(&|\?|#)code=\w+/g, '$1code=');
       history.replaceState(null, null, copy);
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', ("//waltz.ele.me/" + (this.env) + "/userinfo?code=" + (encodeURIComponent(_this.params.code))));
+      xhr.open('GET', ("//waltz.ele.me/" + (this.env) + "/userinfo?code=" + (encodeURIComponent(this.params.code))));
       xhr.onerror = xhr.onload = function () {
-        done(Parse(xhr.responseText));
+        this$1.done(Parse(xhr.responseText));
       };
       xhr.send();
       delete this.params.code;
     } else {
-      done(parse(decodeURIComponent(document.cookie.match(/snsInfo=([^;]*)|$/)[1])));
+      this.done(Parse(decodeURIComponent(document.cookie.match(/snsInfo=([^;]*)|$/)[1])));
     }
   },
 
@@ -167,7 +169,7 @@ var snsSdk = {
       return
     }
 
-    if (window.wx) {
+    if (!window.wx) {
       return console.error('Uncaught ReferenceError: wx is not defined 使用分享功能需引入第三方的 sdk，请检查代码')
     }
 

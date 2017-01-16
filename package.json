@@ -1,6 +1,6 @@
 {
   "name": "sns-sdk",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-rc.0",
   "description": "The sdk to invoke third-party authentication, such as wechat",
   "main": "sns-sdk.js",
   "directories": {

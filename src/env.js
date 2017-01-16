@@ -18,4 +18,4 @@ export default (function() {
       return 'browser'
       break
   }
-})
+})()
