@@ -9,7 +9,7 @@ mv package.json.tmp package.json
 git add package.json
 
 npm install
-./node_modules/.bin/amd2umd src/sns-sdk.js > sns-sdk.js
+./node_modules/.bin/rollup -c
 git add sns-sdk.js -f
 
 git commit -m $1
