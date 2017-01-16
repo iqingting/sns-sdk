@@ -92,8 +92,12 @@ export default {
    * @param { String } option.link 分享的链接
    */
   share(param) {
-    if (!this.available() || !window.wx) {
+    if (!this.available()) {
       return
+    }
+
+    if (window.wx) {
+      return console.error('Uncaught ReferenceError: wx is not defined 使用分享功能需引入第三方的 sdk，请检查代码')
     }
 
     var list = [
