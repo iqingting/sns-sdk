@@ -54,3 +54,7 @@ sns.getUserInfo(user => {
   **/
 })
 ```
+
+## 微信授权逻辑
+
+<img src="logic-of-wechat.png" width="699" />
