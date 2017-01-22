@@ -124,7 +124,7 @@ export default {
       wx.config(options)
       wx.ready(() => {
         return list.forEach(name => {
-          return wx[name](this.param)
+          return wx[name](param)
         })
       })
     }

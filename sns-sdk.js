@@ -1,7 +1,7 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global.sns = factory());
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.sns = factory());
 }(this, (function () { 'use strict';
 
 var CookieConfig = {
@@ -196,7 +196,7 @@ var snsSdk = {
       wx.config(options);
       wx.ready(function () {
         return list.forEach(function (name) {
-          return wx[name](this$1.param)
+          return wx[name](param)
         })
       });
     };
