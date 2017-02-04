@@ -39,7 +39,8 @@ sns.share({
 })
 ```
 
-获取用户信息（可能会跳到授权页再链接回来，**导致页面重新加载**）
+获取用户信息（可能会跳到授权页再链接回来，**导致页面重新加载**）  
+[user 数据结构](http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html)
 
 ```js
 sns.getUserInfo(user => {
