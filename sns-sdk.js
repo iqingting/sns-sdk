@@ -14,7 +14,7 @@ var CookieConfig = {
     var info = ref.info;
     var expired = ref.expired;
 
-    document.cookie = "snsInfo=" + info + "; Domain=" + (document.domain) + "; Path=/; Expires=" + expired;
+    document.cookie = "snsInfo=" + info + "; Domain=.ele.me; Path=/; Expires=" + expired;
   },
 
   /**

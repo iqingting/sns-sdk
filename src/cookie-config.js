@@ -5,7 +5,7 @@ export default {
    * 向当前域名的 / 路径下设置 cookie
    */
   set({ info, expired }) {
-    document.cookie = `snsInfo=${info}; Domain=${document.domain}; Path=/; Expires=${expired}`
+    document.cookie = `snsInfo=${info}; Domain=.ele.me; Path=/; Expires=${expired}`
   },
 
   /**
