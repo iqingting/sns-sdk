@@ -19,6 +19,9 @@ export default {
   },
 
   remove() {
+    // 清除旧的 cookie
+    document.cookie = 'snsInfo=; Domain=h5.ele.me; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT'
+
     this.set({
       info: '',
       expired: 'Thu, 01 Jan 1970 00:00:00 GMT',
