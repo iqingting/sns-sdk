@@ -22,7 +22,7 @@ var CookieConfig = {
    */
   add: function add(info) {
     this.set({
-      info: JSON.stringify(info),
+      info: encodeURIComponent(JSON.stringify(info)),
       expired: 'Wed, 31 Dec 2098 16:00:00 GMT',
     });
   },
