@@ -28,7 +28,7 @@ export default {
     object.avatar = object.figureurl_qq_1 || object.headimgurl || object.profile_image_url
     object.eleme_key = object.eleme_key || object.key
 
-    if (!object.openid) {
+    if (!object.openid || !object.eleme_key) {
       return this.authorize()
     }
 
