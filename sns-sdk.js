@@ -118,7 +118,9 @@ var snsSdk = {
     }
     CookieConfig.remove();
 
-    var url = encodeURIComponent('https://m.ele.me/activities/wechat?eleme_redirect=' + encodeURIComponent(location.href));
+    var url = location.host === 'h5.ele.me'
+      ? encodeURIComponent(location.href)
+      : encodeURIComponent('https://h5.ele.me/wechat/#eleme_redirect=' + encodeURIComponent(location.href));
     var authorizeMap = {
       weixin: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx2a416286e96100ed&redirect_uri=' + url + '&response_type=code&scope=snsapi_userinfo',
       qq: 'https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101204453&redirect_uri=' + url + '&response_type=code&scope=get_user_info',
