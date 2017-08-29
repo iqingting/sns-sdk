@@ -20,7 +20,7 @@ if (/MicroMessenger/i.test(navigator.userAgent))
   document.write('<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"><\/script>')
 </script>
 <!-- 引入依赖 UParams -->
-<script src="http://github.elemecdn.com/YanagiEiichi/uparams/1.3.0/uparams.min.js"></script>
+<script src="//github.elemecdn.com/YanagiEiichi/uparams/1.3.0/uparams.min.js"></script>
 <!-- 引入 sns-sdk，注意版本 -->
 <script src="//github.elemecdn.com/eleme/sns-sdk/{x.y.z}/sns-sdk.js"></script>
 ```
