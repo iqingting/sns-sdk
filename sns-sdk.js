@@ -74,7 +74,8 @@ var Env = (function() {
 
 var snsSdk = {
   env: Env,
-  params: new UParams(),
+  debug: /(\?|#|&)debug/.test(location.href),
+  code: (location.href.match(/[\?|#|&]code=([^&]+)/) || [])[1],
   queue: [],
 
   /**
@@ -144,17 +145,17 @@ var snsSdk = {
       return
     }
 
-    if (this.params.code) {
+    if (this.code) {
       // Remove code in url params
       var copy = location.href.replace(/(&|\?|#)code=\w+/g, '$1code=');
       history.replaceState(null, null, copy);
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', ("//waltz.ele.me/" + (this.env) + "/userinfo?code=" + (encodeURIComponent(this.params.code))));
+      xhr.open('GET', ("//waltz.ele.me/" + (this.env) + "/userinfo?code=" + (encodeURIComponent(this.code))));
       xhr.onerror = xhr.onload = function () {
         this$1.done(Parse(xhr.responseText));
       };
       xhr.send();
-      delete this.params.code;
+      delete this.code;
     } else {
       this.done(Parse(decodeURIComponent(document.cookie.match(/snsInfo=([^;]*)|$/)[1])));
     }
@@ -195,7 +196,7 @@ var snsSdk = {
         jsApiList: list.slice(0),
       };
 
-      if (this$1.params.debug) {
+      if (this$1.debug) {
         options.debug = true;
       }
       wx.config(options);
