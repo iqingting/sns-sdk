@@ -4,7 +4,8 @@ import Env from './env'
 
 export default {
   env: Env,
-  params: new UParams(),
+  debug: /(\?|#|&)debug/.test(location.href),
+  code: (location.href.match(/[\?|#|&]code=([^&]+)/) || [])[1],
   queue: [],
 
   /**
@@ -70,17 +71,17 @@ export default {
       return
     }
 
-    if (this.params.code) {
+    if (this.code) {
       // Remove code in url params
       var copy = location.href.replace(/(&|\?|#)code=\w+/g, '$1code=')
       history.replaceState(null, null, copy)
       var xhr = new XMLHttpRequest()
-      xhr.open('GET', `//waltz.ele.me/${this.env}/userinfo?code=${encodeURIComponent(this.params.code)}`)
+      xhr.open('GET', `//waltz.ele.me/${this.env}/userinfo?code=${encodeURIComponent(this.code)}`)
       xhr.onerror = xhr.onload = () => {
         this.done(Parse(xhr.responseText))
       }
       xhr.send()
-      delete this.params.code
+      delete this.code
     } else {
       this.done(Parse(decodeURIComponent(document.cookie.match(/snsInfo=([^;]*)|$/)[1])))
     }
@@ -120,7 +121,7 @@ export default {
         jsApiList: list.slice(0),
       }
 
-      if (this.params.debug) {
+      if (this.debug) {
         options.debug = true
       }
       wx.config(options)
